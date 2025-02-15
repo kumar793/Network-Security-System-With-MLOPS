@@ -1,0 +1,10 @@
+python-dotenv
+pandas
+numpy
+pymongo #dataingestion
+scikit-learn
+matplotlib
+seaborn
+certifi
+pymongo[srv]==3.12
+-e .
