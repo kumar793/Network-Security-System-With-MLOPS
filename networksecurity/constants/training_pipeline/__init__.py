@@ -13,7 +13,7 @@ ARTIFACT_DIR:str = "Artifacts"
 FILE_NAME:str = "phishingData.csv"
 
 """
-Data Ingestion related constants
+Database  related constants
 """
 
 DATA_INGESTION_COLLECTION_NAME:str= "Network data"
