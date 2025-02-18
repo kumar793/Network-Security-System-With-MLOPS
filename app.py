@@ -46,9 +46,12 @@ async def index():
 @app.get("/train")
 async def train_route():
     try:
-        train_pipeline = TrainingPipeline
+        train_pipeline = TrainingPipeline()
         train_pipeline.run_pipeline()
         return Response("Training is sucessful")
     except Exception as e:
         raise NetworkSecurityException(e,sys)
+    
+if __name__ == "__main__":
+    app_run(app,host = "localhost",port = 8000)
 
