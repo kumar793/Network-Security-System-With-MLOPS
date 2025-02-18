@@ -7,17 +7,17 @@ from networksecurity.exception.exception import NetworkSecurityException
 from networksecurity.logging.logger import logging
 from networksecurity.pipeline.training_pipeline import TrainingPipeline
 from networksecurity.constants.training_pipeline import DATA_INGESTION_COLLECTION_NAME,DATA_INGESTION_DATABASE_NAME
-
+from networksecurity.utils.ml_utils.model.estimator import NetworkModel
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI,File,UploadFile,Request
 from uvicorn import run as app_run
 from fastapi.responses import Response
 from starlette.responses import RedirectResponse
-
+from fastapi.templating import Jinja2Templates
 import pandas as pd
 
 from networksecurity.utils.main_utils.utils import load_object
-
+templates = Jinja2Templates(directory="./templates")
 load_dotenv()
 mongo_db_url = os.getenv("MONGGO_DB_URI")
 ca = certifi.where()
@@ -51,6 +51,28 @@ async def train_route():
         return Response("Training is sucessful")
     except Exception as e:
         raise NetworkSecurityException(e,sys)
+    
+@app.post("/predict")
+async def predict_route(request:Request,file:UploadFile=File(...)):
+    try:
+        df = pd.read_csv(file.file)
+        preprocessor = load_object("final_model/preprocessor.pkl")
+        final_model = load_object("final_model/model.pkl")
+        network_model = NetworkModel(preprocessor,final_model)
+        print(df.iloc[0])
+        y_pred = network_model.predict(df)
+        print(y_pred)
+        df["predicted_column"] = y_pred
+        print(df["predicted_column"])
+        df.to_csv("predicted data/output.csv")
+        table_html = df.to_html(classes="table table-stripped")
+        return templates.TemplateResponse("table.html", {"request": request, "table": table_html})
+    except Exception as e:
+        raise NetworkSecurityException(e,sys)
+    
+    
+    
+    
     
 if __name__ == "__main__":
     app_run(app,host = "localhost",port = 8000)
