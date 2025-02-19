@@ -42,6 +42,25 @@ The project is organized into the following directories:
 - `setup.py`: Script for installing the project as a Python package.
 - `.gitignore`: Specifies intentionally untracked files that Git should ignore.
 
+Docker Setup In EC2 commands to be Executed
+#optinal
+
+sudo apt-get update -y
+
+sudo apt-get upgrade
+
+#required
+
+curl -fsSL https://get.docker.com -o get-docker.sh
+
+sudo sh get-docker.sh
+
+sudo usermod -aG docker ubuntu
+
+newgrp docker
+
+the setup github runner.
+
 ## Setup and Run
 
 To set up and run the project, follow these steps:
