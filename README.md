@@ -83,12 +83,9 @@ To set up and run the project, follow these steps:
    pip install -r requirements.txt
    ```
 
-4. **Install the project (editable mode recommended):**
-   ```bash
-   pip install -e .
-   ```
 
-5. **Run the application:**
+
+4. **Run the application:**
    ```bash
    python app.py
    ```
